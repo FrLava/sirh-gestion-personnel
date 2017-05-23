@@ -54,7 +54,7 @@
 		<div class="form-group">
 		  <label class="col-md-4 control-label" for="textInputIdSecu">Numéro de sécurité sociale</label>  
 		  <div class="col-md-4">
-		  <input id="textInputIdSecu" name="textInputIdSecu" type="text" placeholder="Entrez le numéro" class="form-control input-md" required="">
+		  <input id="textInputIdSecu" name="textInputIdSecu" type="text" placeholder="Entrez le numéro" class="form-control input-md" required="" maxlength="15">
 		    
 		  </div>
 		</div>

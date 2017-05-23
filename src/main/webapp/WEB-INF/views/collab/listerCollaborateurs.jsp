@@ -28,6 +28,17 @@
 		<h1>Autre collaborateurs</h1>
 
 		<table class="table">
+			<thead>
+				<tr>
+					<th> <strong> Nom </strong> </th>
+					<th> <strong> Prenom </strong> </th>
+					<th> <strong> Email </strong> </th>
+					<th> <strong> Matricule </strong> </th>
+					<th> <strong> Numéro de Sécurité Sociale </strong> </th>
+					<th> <strong> Date de Naissance </strong> </th>
+					<th> <strong> Date de création </strong> </th>
+				</tr>
+			</thead>
 			<%
 				List<Collaborateur> listeNomsService = (List<Collaborateur>)request.getAttribute("listeNomsService");
 				for (Collaborateur collab : listeNomsService) {

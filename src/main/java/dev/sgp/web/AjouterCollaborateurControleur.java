@@ -24,19 +24,36 @@ public class AjouterCollaborateurControleur extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+		
+		boolean flag = true;
+		
 		String nomCollabo = req.getParameter("textInputNom");
 		String prenomCollabo = req.getParameter("textInputPrenom");
 		String dateNaissanceCollabo = req.getParameter("textInputDate");
 		String adresseCollabo = req.getParameter("textAreaAdresse");
 		String secuCollabo = req.getParameter("textInputIdSecu");
 		
-		Collaborateur collab = new Collaborateur(nomCollabo,prenomCollabo,adresseCollabo,secuCollabo,dateNaissanceCollabo);
+		for(char c : secuCollabo.toCharArray()){
+			if(!Character.isDigit(c)){
+				flag = false;
+				break;
+			}
+		}
 		
-		this.collabService.sauvegarderCollaborateur(collab);
+		if(secuCollabo.length()!=15 || flag == false) {
+			resp.setStatus(400);
+			resp.getWriter().write("Mauvaise Saisie");
+		}
 		
-		//req.getRequestDispatcher("/WEB-INF/views/collab/listerCollaborateur.jsp").forward(req, resp);
-		resp.sendRedirect(req.getContextPath() + "/collaborateurs/lister");
+		else{
+			
+			Collaborateur collab = new Collaborateur(nomCollabo,prenomCollabo,adresseCollabo,secuCollabo,dateNaissanceCollabo);
+			this.collabService.sauvegarderCollaborateur(collab);
+			
+			resp.sendRedirect(req.getContextPath() + "/collaborateurs/lister"); //Redirection une fois le formulaire valider
+			
+			
+		}
 		
 	}
 	

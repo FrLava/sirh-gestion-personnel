@@ -3,11 +3,17 @@ package dev.sgp.entite;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Random;
+import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class Collaborateur {
 	
-	private String matricule;
+	private ResourceBundle bundle=ResourceBundle.getBundle("application");
+	private String valueMail=bundle.getString("suffixeMail.val");
+	
+	private UUID matricule;
 	private String nom;
 	private String prenom;
 	private String adresse;
@@ -17,6 +23,7 @@ public class Collaborateur {
 	
 	private LocalDate dateDeNaissance;
 	private ZonedDateTime dateHeureCreation;
+	private DateTimeFormatter f = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL);
 	
 	private boolean actif;
 	
@@ -27,27 +34,28 @@ public class Collaborateur {
 		this.numSecu=numSecu;
 		this.dateDeNaissance=LocalDate.parse(dateDeNaissance);
 		
-		this.emailPro=this.prenom+"."+this.nom+"@"+"societe.com";
+		this.emailPro=this.prenom+"."+this.nom+"@"+this.valueMail;
 		this.photo="url";
-		this.matricule="m";
+		this.matricule = UUID.randomUUID();
 		
+
 		this.dateHeureCreation=ZonedDateTime.now();
 		this.actif=true;
 	}
 	
 	public String toString(){
 		String string = "Collaborateur : "+this.nom+" "+this.prenom+","
-						+ " matricule : "+this.matricule
+						+ " matricule : "+this.matricule.toString()
 						+", adresse : "+this.adresse
 						+", numéro de sécurité sociale : "+this.numSecu
 						+", email proffessionel : "+this.emailPro
 						+", date de naissance : "+this.dateDeNaissance
-						+", créé le : "+this.dateHeureCreation;
+						+", créé le : "+this.dateHeureCreation.format(f);
 		return string;
 	}
 
 	public String getMatricule() {
-		return matricule;
+		return matricule.toString();
 	}
 
 	public String getNom() {
