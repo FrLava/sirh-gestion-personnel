@@ -1,6 +1,7 @@
 <%@ page import="java.util.List"%>
 <%@ page import="dev.sgp.entite.Collaborateur"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -10,22 +11,8 @@
 	</head>
 	
 	<body>
-		<h1>Les collaborateurs sont sympas</h1>
-
-		<ul>
-			<%
-				List<String> listeNomsArray = (List<String>)request.getAttribute("listeNomsArray");
-				for (String nom : listeNomsArray) {
-			%>
-			
-			<li><a href="#" class="btn btn-default"> <%= nom %> </a></li>
-			
-			<%
-				}
-			%>
-		</ul>
 		
-		<h1>Autre collaborateurs</h1>
+		<h1>Les collaborateurs sont sympas</h1>
 
 		<table class="table">
 			<thead>
@@ -39,24 +26,21 @@
 					<th> <strong> Date de création </strong> </th>
 				</tr>
 			</thead>
-			<%
-				List<Collaborateur> listeNomsService = (List<Collaborateur>)request.getAttribute("listeNomsService");
-				for (Collaborateur collab : listeNomsService) {
-			%>
+			
+			<c:forEach var="collab" items="${listeNomsService}">
 			
 			<tr>
-				<td> <%= collab.getNom() %> </td>
-				<td> <%= collab.getPrenom() %> </td>
-				<td> <%= collab.getEmailPro()%> </td>
-				<td> <%= collab.getMatricule() %> </td>
-				<td> <%= collab.getNumSecu() %> </td>
-				<td> <%= collab.getDateDeNaissance() %> </td>
-				<td> <%= collab.getDateHeureCreation() %> </td>
+				<td> ${ collab.nom } </td>
+				<td> ${ collab.prenom } </td>
+				<td> ${ collab.emailPro } </td>
+				<td> ${ collab.matricule } </td>
+				<td> ${ collab.numSecu } </td>
+				<td> ${ collab.dateDeNaissance } </td>
+				<td> ${ collab.dateHeureCreation} </td>
 			</tr>
 			
-			<%
-				}
-			%>
+			</c:forEach>
+			
 		</table>
 		
 	</body>
