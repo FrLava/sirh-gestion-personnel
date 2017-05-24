@@ -13,7 +13,7 @@
 		<fieldset>
 
 		<!-- Form Name -->
-		<legend>Nouveau Collaborateur</legend>
+		<legend>Edition du collaborateur Collaborateur</legend>
 		
 		<!-- Text input-->
 		<div class="form-group">
