@@ -39,11 +39,7 @@
 				<td> ${ collab.dateHeureCreation} </td>
 				<td> <a Method="POST" class="btn btn-primary" 
 					href="<%=request.getContextPath()%>/collaborateurs/editer?
-					nom=${collab.nom}&
-					prenom=${collab.prenom}&
-					numSecu=${collab.numSecu}&
-					adresse=${ collab.adresse }&
-					dateDeNaissance=${collab.dateDeNaissance}&"> Editer </a> </td>
+					matricule=${collab.matricule}"> Editer </a> </td>
 			</tr>
 			
 			</c:forEach>

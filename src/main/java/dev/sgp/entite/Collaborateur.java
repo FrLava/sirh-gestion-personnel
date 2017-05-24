@@ -8,24 +8,43 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Collaborateur")
 public class Collaborateur {
 	
-	private ResourceBundle bundle=ResourceBundle.getBundle("application");
-	private String valueMail=bundle.getString("suffixeMail.val");
+	private static String SUFFIXE_EMAIL = ResourceBundle.getBundle("application").getString("suffixeMail.val");
 	
+	@Id
 	private UUID matricule;
+	
+	@Column(name="Nom")
 	private String nom;
+	@Column(name="Prenom")
 	private String prenom;
+	@Column(name="Adresse")
 	private String adresse;
+	@Column(name="NumSecu")
 	private String numSecu;
+	@Column(name="EmailPro")
 	private String emailPro;
+	@Column(name="Photo")
 	private String photo;
 	
+	@Column(name="DatedeNaissance")
 	private LocalDate dateDeNaissance;
+	@Column(name="DateHeuredecreation")
 	private ZonedDateTime dateHeureCreation;
-	private DateTimeFormatter f = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL);
-	
+	@Column(name="actif")
 	private boolean actif;
+	
+	public Collaborateur(){
+		
+	}
 	
 	public Collaborateur (String nom, String prenom, String adresse, String numSecu, String dateDeNaissance){
 		this.nom=nom;
@@ -34,7 +53,7 @@ public class Collaborateur {
 		this.numSecu=numSecu;
 		this.dateDeNaissance=LocalDate.parse(dateDeNaissance);
 		
-		this.emailPro=this.prenom+"."+this.nom+"@"+this.valueMail;
+		this.emailPro=this.prenom+"."+this.nom+"@"+SUFFIXE_EMAIL;
 		this.photo="url";
 		this.matricule = UUID.randomUUID();
 		
@@ -50,7 +69,7 @@ public class Collaborateur {
 						+", numéro de sécurité sociale : "+this.numSecu
 						+", email proffessionel : "+this.emailPro
 						+", date de naissance : "+this.dateDeNaissance
-						+", créé le : "+this.dateHeureCreation.format(f);
+						+", créé le : "+this.dateHeureCreation.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL));
 		return string;
 	}
 

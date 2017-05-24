@@ -1,28 +1,32 @@
 package dev.sgp.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import dev.sgp.entite.CollabEvt;
 import dev.sgp.entite.Collaborateur;
 import dev.sgp.entite.TypeCollabEvt;
 
-@ApplicationScoped
+@Stateless
 public class CollaborateurService {
 
 	@Inject Event<CollabEvt> collabEvt;
-	List<Collaborateur> listeCollaborateurs = new ArrayList<>();
-
+	
+	@PersistenceContext(unitName="SGPDS") private EntityManager em;
+	
 	public List<Collaborateur> listerCollaborateurs() {
-		return listeCollaborateurs;
+		TypedQuery<Collaborateur> query = em.createQuery("select c from Collaborateur c", Collaborateur.class);
+		return query.getResultList();
 	}
 
 	public void sauvegarderCollaborateur(Collaborateur collab) {
-		listeCollaborateurs.add(collab);
+		em.persist(collab);
 		collabEvt.fire(new CollabEvt(TypeCollabEvt.CREATION_COLLAB, collab.getMatricule()));
 
 	}
