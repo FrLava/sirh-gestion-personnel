@@ -31,4 +31,21 @@ public class CollaborateurService {
 
 	}
 	
+	public void updateCollaborateur(String matricule, Collaborateur collab) {
+		
+		TypedQuery<Collaborateur> pQuery=em.createQuery("select c from Collaborateur c where c.matricule=:matricule",Collaborateur.class);
+		pQuery.setParameter("matricule", matricule);
+		Collaborateur c=pQuery.getResultList().get(0);
+		
+		c.setNom(collab.getNom());
+		c.setPrenom(collab.getPrenom());
+		c.setAdresse(collab.getAdresse());
+		c.setNumSecu(collab.getNumSecu());
+		c.setDateDeNaissance(collab.getDateDeNaissance());
+		
+		em.persist(c);
+
+		
+	}
+	
 }

@@ -108,5 +108,29 @@ public class Collaborateur {
 	public ZonedDateTime getDateHeureCreation() {
 		return dateHeureCreation;
 	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+
+	public void setNumSecu(String numSecu) {
+		this.numSecu = numSecu;
+	}
+
+	public void setEmailPro(String emailPro) {
+		this.emailPro = emailPro;
+	}
+
+	public void setDateDeNaissance(LocalDate dateDeNaissance) {
+		this.dateDeNaissance = dateDeNaissance;
+	}
 	
 }
