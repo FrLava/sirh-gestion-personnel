@@ -10,7 +10,10 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,7 +23,10 @@ public class Collaborateur {
 	private static String SUFFIXE_EMAIL = ResourceBundle.getBundle("application").getString("suffixeMail.val");
 	
 	@Id
-	private UUID matricule;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+	
+	private String matricule;
 	
 	@Column(name="Nom")
 	private String nom;
@@ -42,6 +48,9 @@ public class Collaborateur {
 	@Column(name="actif")
 	private boolean actif;
 	
+	@ManyToOne
+	private Departement departement;
+	
 	public Collaborateur(){
 		
 	}
@@ -55,11 +64,16 @@ public class Collaborateur {
 		
 		this.emailPro=this.prenom+"."+this.nom+"@"+SUFFIXE_EMAIL;
 		this.photo="url";
-		this.matricule = UUID.randomUUID();
+		this.matricule = UUID.randomUUID().toString();
 		
 
 		this.dateHeureCreation=ZonedDateTime.now();
 		this.actif=true;
+	}
+	
+	public Collaborateur (String nom, String prenom, String adresse, String numSecu, String dateDeNaissance, Departement depart){
+		this(nom, prenom, adresse, numSecu,dateDeNaissance);
+		this.departement=depart;
 	}
 	
 	public String toString(){
@@ -74,7 +88,7 @@ public class Collaborateur {
 	}
 
 	public String getMatricule() {
-		return matricule.toString();
+		return matricule;
 	}
 
 	public String getNom() {
@@ -108,6 +122,14 @@ public class Collaborateur {
 	public ZonedDateTime getDateHeureCreation() {
 		return dateHeureCreation;
 	}
+	
+	public int getId(){
+		return this.id;
+	}
+	
+	public Departement getDepartement(){
+		return this.departement;
+	}
 
 	public void setNom(String nom) {
 		this.nom = nom;
@@ -133,4 +155,7 @@ public class Collaborateur {
 		this.dateDeNaissance = dateDeNaissance;
 	}
 	
+	public void setDepartement(Departement d){
+		this.departement = d;
+	}
 }

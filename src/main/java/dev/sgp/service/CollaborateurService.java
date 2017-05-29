@@ -1,6 +1,9 @@
 package dev.sgp.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -33,19 +36,62 @@ public class CollaborateurService {
 	
 	public void updateCollaborateur(String matricule, Collaborateur collab) {
 		
-		TypedQuery<Collaborateur> pQuery=em.createQuery("select c from Collaborateur c where c.matricule=:matricule",Collaborateur.class);
-		pQuery.setParameter("matricule", matricule);
-		Collaborateur c=pQuery.getResultList().get(0);
+		Map<String, String> errorMap=new HashMap<>();
 		
-		c.setNom(collab.getNom());
-		c.setPrenom(collab.getPrenom());
-		c.setAdresse(collab.getAdresse());
-		c.setNumSecu(collab.getNumSecu());
-		c.setDateDeNaissance(collab.getDateDeNaissance());
+		boolean error=false;
 		
-		em.persist(c);
+		TypedQuery<Collaborateur> pQuery=em.createQuery("select c from Collaborateur c where c.matricule="+"'"+matricule+"'",Collaborateur.class);
+		Collaborateur c=pQuery.getSingleResult();
+		
+		if(collab.getNom()==null){
+			error=true;
+			errorMap.put("nom", "missing");
+			
+		}
+		if(collab.getPrenom()==null){
+			error=true;
+			errorMap.put("prenom", "missing");
+			
+		}
+		if(collab.getAdresse()==null){
+			errorMap.put("adresse", "missing");
+			
+		}
+		if(collab.getNumSecu()==null){
+			error=true;
+			errorMap.put("numSecu", "missing");
+			
+		}
+		
+		for(char x : collab.getNumSecu().toCharArray()){
+			if(!Character.isDigit(x)){
+				error = false;
+				errorMap.put("numSecu", "error");
+				break;
+			}
+		}
+		
+		if(!error){
+			c.setNom(collab.getNom());
+			c.setPrenom(collab.getPrenom());
+			c.setAdresse(collab.getAdresse());
+			c.setNumSecu(collab.getNumSecu());
+			c.setDateDeNaissance(collab.getDateDeNaissance());
+			em.persist(c);
+		}
 
 		
+	}
+	
+	public Collaborateur getCollabByMatricule(String matricule) {
+		TypedQuery<Collaborateur> query = em.createQuery("select c from Collaborateur c where c.matricule="+"'"+matricule+"'", Collaborateur.class);
+		return query.getSingleResult();
+	}
+
+	public List<Collaborateur> getCollabByDepartement(String idDepart) {
+		int id=Integer.parseInt(idDepart);
+		TypedQuery<Collaborateur> query = em.createQuery("select c from Collaborateur c where c.departement.id="+"'"+id+"'",Collaborateur.class);
+		return query.getResultList();
 	}
 	
 }
